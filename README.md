@@ -24,6 +24,7 @@
   * [Generator](/JavaScript/Generator.md)
   * [防抖和节流](/JavaScript/防抖和节流.md)
   * [正则表达式](/JavaScript/正则表达式.md)
+  * [垃圾回收机制](/JavaScript/垃圾回收机制.md)
 
 * 浏览器
   * [跨域](/browser/跨域.md)
@@ -68,6 +69,7 @@
 
 ## 笔试面试
 * 面试集锦
+  * [一些检验的方法](/interview/一些检验的方法.md)
   * [0.1加0.2不等于0.3](/interview/0.1加0.2不等于0.3.md)
   * [React中setState为什么是异步的](/interview/React中setState为什么是异步的.md)
   * [一道闭包面试题](/interview/一道闭包面试题.md)
