@@ -8,7 +8,7 @@
 
 ## 默认绑定
 > 函数直接使用不带任何修饰的函数引用进行调用，则绑定到全局对象或 undefined 上
-```
+```js
 function foo(){
   console.log(this.a);
 }
@@ -20,7 +20,7 @@ foo();//2
 > 隐式绑定规则会把函数调用中的 this 绑定到这个上下文对象
 
 注意：对象属性引用链中只有上一层或者说最后一层在调用位置中起作用
-```
+```js
 function foo(){
   console.log(this.a);
 }
@@ -37,7 +37,7 @@ obj1.obj2.foo();//42
 
 ### 隐式丢失
 被隐式绑定的函数会丢失绑定对象，就是说会默认绑定，从而把 this 绑定到全局对象或 undefined 上
-```
+```js
 function foo(){
   console.log(this.a);
 }
@@ -48,7 +48,7 @@ var obj = {
 var bar = obj.foo;
 bar();//"undefined"
 ```
-```
+```js
 //传入回调函数时
 function foo(){
   console.log(this.a);
@@ -66,7 +66,7 @@ doFoo(obj.foo);//undefined
 
 ## 显式绑定
 call(),apply()
-```
+```js
 function foo(){
   console.log(this.a);
 }
@@ -79,7 +79,7 @@ foo.call(obj);//2
 
 ### 硬绑定
 典型的应用场景就是创建一个包裹函数，负责接收参数并返回值
-```
+```js
 function foo(something){
   console.log(this.a,something);
   return this.a+something;
@@ -113,7 +113,7 @@ console.log(b);//5
 
 ```
 [Array.prototype.slice.call(arguments)](https://www.cnblogs.com/littledu/archive/2012/05/19/2508672.html)
-```
+```js
 function create() {
     // 创建一个空的对象
     let obj = new Object()
@@ -128,7 +128,7 @@ function create() {
 }
 ```
  
-```
+```js
 function foo(a){
   this.a = a;
 }
@@ -148,7 +148,7 @@ ES6 中的箭头函数不会使用四条绑定规则，而是根据当前的词�
 
 箭头函数**继承**外层函数调用的 this 绑定，这其实和 ES6 之前代码中的 self = this 机制一样
 
-```
+```js
 function foo(){
   return (a) => {
     console.log(this.a);
@@ -166,7 +166,7 @@ bar.call(obj2);//3,
 
 箭头函数其实是没有 this 的，这个函数中的 this 只取决于他外面的第一个不是箭头函数的函数的 this。在下面这个例子中，因为调用 a 符合前面代码中的第一个情况，所以 this 是 window。并且 this 一旦绑定了上下文，就不会被任何代码改变。
 
-```
+```js
 function a() {
     return () => {
         return () => {
@@ -181,7 +181,7 @@ console.log(a()()())
 call 和 apply 都是为了解决改变 this 的指向。作用都是相同的，只是传参的方式不同。
 
 除了第一个参数外，call 可以接收一个参数列表，apply 只接受一个参数数组。
-```
+```js
 let a = {
     value: 1
 }
@@ -218,7 +218,7 @@ Function.prototype.myCall = function (context) {
 }
 ```
 以上就是 call 的思路，apply 的实现也类似
-```
+```js
 Function.prototype.myApply = function (context) {
   var context = context || window
   context.fn = this
@@ -260,7 +260,7 @@ boundGetX(); // 返回 81
 ```
 
 同样的，也来模拟实现下 bind
-```
+```js
 Function.prototype.myBind = function (context) {
   // 确保调用 myBind 的是函数
   if (typeof this !== 'function') {
