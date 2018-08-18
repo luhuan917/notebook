@@ -16,7 +16,7 @@
   * [load事件与DOMContentLoaded事件的先后](#load事件与DOMContentLoaded事件的先后)
   * [css加载是否会阻塞dom树渲染](#css加载是否会阻塞dom树渲染)
   * [普通图层和复合图层](#普通图层和复合图层)
-* [从Event Loop谈JS的运行机制](#从Event Loop谈JS的运行机制)
+* [从EventLoop谈JS的运行机制](#从EventLoop谈JS的运行机制)
   * [事件循环机制](#事件循环机制)
   * [定时器](#定时器)
   * [setTimeout与setInterval](#setTimeout与setInterval)
@@ -202,7 +202,7 @@ SharedWorker由独立的进程管理，WebWorker只是属于render进程下的�
 
 传送门：[CSS3硬件加速也有坑](http://web.jobbole.com/83575/)
 
-## 从Event Loop谈JS的运行机制
+## 从EventLoop谈JS的运行机制
 > 浏览器页面初次渲染完毕后,JS引擎的一些运行机制分析。
 
 * JS分为同步任务和异步任务
