@@ -27,8 +27,10 @@
   * [垃圾回收机制](/JavaScript/垃圾回收机制.md)
 
 * React
+  * [React16的新特性](/React/React16的新特性.md)
   * [React和jQuery的对比](/React/React和jQuery的对比.md)
   * [VirtualDomDiff算法解析](/React/VirtualDomDiff算法解析.md)
+  * [React16加载性能优化指南](/React/React16加载性能优化指南.md)
 
 * Vue
  

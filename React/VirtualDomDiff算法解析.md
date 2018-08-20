@@ -2,15 +2,36 @@
 > VDD
 
 * [Virtual Dom Diff 算法](#VirtualDomDiff算法)
-  * [不同节点类型的比较](#不同节点类型的比较)
+* [不同节点类型的比较](#不同节点类型的比较)
   * [逐层进行节点比较](#逐层进行节点比较)
   * [由DOM Diff算法理解组件的生命周期](#由DOM Diff算法理解组件的生命周期)
-  * [相同类型节点的比较](#相同类型节点的比较)
+* [相同类型节点的比较](#相同类型节点的比较)
 * [列表节点的比较](#列表节点的比较)
+* [总结](#总结)
+
 ## Virtual Dom Diff 算法
 标准的的Diff算法复杂度需要 O(n^3)，Diff算法复杂度直接降低到 O(n)
-1. **两个相同组件产生类似的 DOM 结构，不同的组件产生不同的 DOM 结构**；
-2. **对于同一层次的一组子节点，它们可以通过唯一的id进行区分**。
+
+React 中最值得称道的部分莫过于 Virtual DOM 与 diff 的完美结合，特别是其高效的 diff 算法，让用户可以无需顾忌性能问题而”任性自由”的刷新页面，让开发者也可以无需关心 Virtual DOM 背后的运作原理，因为 React diff 会帮助我们计算出 Virtual DOM 中真正变化的部分，并只针对该部分进行实际 DOM 操作，而非重新渲染整个页面，从而保证了每次操作更新后页面的高效渲染，因此 Virtual DOM 与 diff 是保证 React 性能口碑的幕后推手。
+
+1. **Web UI 中 DOM 节点跨层级的移动操作特别少，可以忽略不计**。
+2. **两个相同组件产生类似的 DOM 结构，不同的组件产生不同的 DOM 结构**；
+3. **对于同一层次的一组子节点，它们可以通过唯一的id进行区分**。
+
+* tree diff：即对树进行分层比较，两棵树只会对同一层次的节点进行比较。
+* component diff
+  * 如果是同一类型的组件，按照原策略继续比较 virtual DOM tree。
+  * 如果不是，则将该组件判断为 dirty component，从而替换整个组件下的所有子节点。
+  * 对于同一类型的组件，有可能其 Virtual DOM 没有任何变化，如果能够确切的知道这点那可以节省大量的 diff 运算时间，因此 React 允许用户通过 shouldComponentUpdate() 来判断该组件是否需要进行 diff。
+* element diff
+  * 当节点处于同一层级时，React diff 提供了三种节点操作，分别为：INSERT_MARKUP（插入）、MOVE_EXISTING（移动）和 REMOVE_NODE（删除）。
+  * INSERT_MARKUP，新的 component 类型不在老集合里， 即是全新的节点，需要对新节点执行插入操作。
+  * MOVE_EXISTING，在老集合有新 component 类型，且 element 是可更新的类型，generateComponentChildren 已调用 receiveComponent，这种情况下 prevChild=nextChild，就需要做移动操作，可以复用以前的 DOM 节点。
+  * REMOVE_NODE，老 component 类型，在新集合里也有，但对应的 element 不同则不能直接复用和更新，需要执行删除操作，或者老 component 不在新集合里的，也需要执行删除操作。
+
+
+
+
 
 ## 不同节点类型的比较
 在React中即比较两个虚拟DOM节点，当两个节点不同时，应该如何处理。这分为两种情况：
@@ -169,8 +190,22 @@ R is updated.
 ```
 可以看到，对于列表节点提供唯一的key属性可以帮助React定位到正确的节点进行比较，从而大幅减少DOM操作次数，提高了性能。
 
-## 小结
+## 总结
 本文分析了React的DOM Diff算法究竟是如何工作的，其复杂度控制在了O（n），这让我们考虑UI时可以完全基于状态来每次render整个界面而无需担心性能问题，简化了UI开发的复杂度。而算法优化的基础是文章开头提到的两个假设，以及React的UI基于组件这样的一个机制。理解虚拟DOM Diff算法不仅能够帮助我们理解组件的生命周期，而且也对我们实现自定义组件时如何进一步优化性能具有指导意义。
 
+diff 算法：
+
+![alt](./imgs/VDD-10.png)
+
+传统 diff 算法：
+
+![alt](./imgs/VDD-11.png)
+
+React diff 算法：
+
+![alt](./imgs/VDD-12.png)
+
 ## 文章来源
-[深入浅出React（四）：虚拟DOM Diff算法解析](http://www.infoq.com/cn/articles/react-dom-diff)
+* [深入浅出React（四）：虚拟DOM Diff算法解析](http://www.infoq.com/cn/articles/react-dom-diff)
+* [React 源码剖析系列 － 不可思议的 react diff](https://zhuanlan.zhihu.com/p/20346379?refer=purerender)
+* [深入理解react（源码分析）](https://github.com/lanjingling0510/blog/issues/1#title2)
