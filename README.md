@@ -3,9 +3,6 @@
 
 ## 前端基础
 * CSS
-  * [animation](/src/CSS/animation.md)
-  * [transform](/src/CSS/transform.md)
-  * [transition](/src/CSS/transition.md)
   * [CSS基础总结一](/src/CSS/CSS基础总结一.md)
   * [业务中训练的 CSS 奇技淫巧](/src/CSS/业务中训练的CSS奇技淫巧.md)
 
