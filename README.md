@@ -27,10 +27,11 @@
   * [垃圾回收机制](/src/JavaScript/垃圾回收机制.md)
 
 * React
-  * [React16的新特性](/src/React/React16的新特性.md)
-  * [React和jQuery的对比](/src/React/React和jQuery的对比.md)
-  * [VirtualDomDiff算法解析](/src/React/VirtualDomDiff算法解析.md)
-  * [React16加载性能优化指南](/src/React/React16加载性能优化指南.md)
+  * [React 中的 setState]()
+  * [React16 的新特性](/src/React/React16的新特性.md)
+  * [React 和 jQuery 的对比](/src/React/React和jQuery的对比.md)
+  * [Virtual Dom Diff算法解析](/src/React/VirtualDomDiff算法解析.md)
+  * [React16 加载性能优化指南](/src/React/React16加载性能优化指南.md)
 
 * Vue
  
@@ -66,8 +67,8 @@
   * [网站流量指标与网站流量统计](/src/business/网站流量指标与网站流量统计.md)
 
 ## 读书笔记
-* [《高性能的JavaScript》](/src/book/高性能的JavaScript.md)
-* [《学习JavaScript数据结构与算法》](/src/book/学习JavaScript数据结构与算法.md)
+* [《高性能的 JavaScript》](/src/book/高性能的JavaScript.md)
+* [《学习 JavaScript 数据结构与算法》](/src/book/学习JavaScript数据结构与算法.md)
 
 ## 百度脑图
 * [归档](http://naotu.baidu.com/file/6084a7cf12c67a46a7a97e62f09151ea?token=441944774bc5f437)
@@ -78,13 +79,8 @@
 ## 笔试面试
 * 面试集锦
   * [一些检验的方法](/src/interview/一些检验的方法.md)
-  * [0.1加0.2不等于0.3](/src/interview/0.1加0.2不等于0.3.md)
-  * [React中setState为什么是异步的](/src/interview/React中setState为什么是异步的.md)
+  * [0.1 加 0.2 不等于 0.3](/src/interview/0.1加0.2不等于0.3.md)
   * [一道闭包面试题](/src/interview/一道闭包面试题.md)
   * [一道跟 new 有关的面试题](/src/interview/一道跟new有关的面试题.md)
   * [一道跟 promise 有关的面试题](/src/interview/一道跟promise有关的面试题.md)
   * [一道跟 setTimeout 有关的面试题](/src/interview/一道跟setTimeout有关的面试题.md)
-
-* 笔试总结
-  * [今日头条2017秋招前端工程师笔试试卷](/src/test/今日头条2017秋招前端工程师笔试试卷.md)
-  * [2019多益网络前端研发工程师](/src/test/2019多益网络前端研发工程师.md)
