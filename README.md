@@ -44,6 +44,7 @@
   * [网络相关](/src/performance/网络相关.md)
   * [文件优化](/src/performance/文件优化.md)
   * [优化渲染过程](/src/performance/优化渲染过程.md)
+  * [懒加载和预加载](/src/performance/懒加载和预加载.md)
 
 * 安全
   * [XSS](/src/safety/XSS.md)
