@@ -24,8 +24,9 @@
   * [垃圾回收机制](/src/JavaScript/垃圾回收机制.md)
 
 * React
-  * [React 中的 setState]()
   * [React16 的新特性](/src/React/React16的新特性.md)
+  * [React 是如何工作的](/src/React/React是如何工作的.md)
+  * [React 中的 setState](/src/React/React中的setState.md)
   * [React 和 jQuery 的对比](/src/React/React和jQuery的对比.md)
   * [Virtual Dom Diff算法解析](/src/React/VirtualDomDiff算法解析.md)
   * [React16 加载性能优化指南](/src/React/React16加载性能优化指南.md)
