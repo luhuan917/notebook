@@ -85,3 +85,4 @@
   * [一道跟 new 有关的面试题](/src/interview/一道跟new有关的面试题.md)
   * [一道跟 promise 有关的面试题](/src/interview/一道跟promise有关的面试题.md)
   * [一道跟 setTimeout 有关的面试题](/src/interview/一道跟setTimeout有关的面试题.md)
+  * [鹅厂提前批在线编程](/src/interview/鹅厂提前批在线编程.md)
