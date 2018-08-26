@@ -3,7 +3,7 @@
 
 ## 前端基础
 * CSS
-  * [CSS基础总结一](/src/CSS/CSS基础总结一.md)
+  * [CSS 基础总结一](/src/CSS/CSS基础总结一.md)
   * [业务中训练的 CSS 奇技淫巧](/src/CSS/业务中训练的CSS奇技淫巧.md)
 
 * JavaScript
@@ -30,6 +30,7 @@
   * [React 和 jQuery 的对比](/src/React/React和jQuery的对比.md)
   * [Virtual Dom Diff算法解析](/src/React/VirtualDomDiff算法解析.md)
   * [React16 加载性能优化指南](/src/React/React16加载性能优化指南.md)
+  * [React 性能优化方案之 PureComponent](/src/React/React16加载性能优化指南.md)
 
 * Vue
  
@@ -60,6 +61,7 @@
 
 * 框架通识
   * [MVVM](/src/frame/MVVM.md)
+  * [Vue 和 React 的区别](/src/frame/Vue和React的区别.md)
 
 * 业务相关
   * [发布](/src/business/发布.md)
