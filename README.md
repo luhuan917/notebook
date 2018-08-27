@@ -9,7 +9,7 @@
 * JavaScript
   * [类型](/src/JavaScript/类型.md)
   * [数组](/src/JavaScript/数组.md)
-  * [异步](/src/src/src/JavaScript/异步.md)
+  * [异步](/src/JavaScript/异步.md)
   * [拷贝](/src/JavaScript/拷贝.md)
   * [this](/src/JavaScript/this.md)
   * [闭包](/src/JavaScript/闭包.md)
