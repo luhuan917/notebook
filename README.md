@@ -33,6 +33,14 @@
   * [React 性能优化方案之 PureComponent](/src/React/React16加载性能优化指南.md)
 
 * Vue
+  * [Vue 的继承](/src/Vue/Vue 的继承.md)
+  * [Vue 的 Virtual DOM](/src/Vue/Vue的VirtualDOM.md)
+  * [异步更新队列 this.$nextTick](/src/Vue/异步更新队列this.$nextTick.md)
+  * [Vue 中数组和对象更改后视图不刷新的问题](/src/Vue/Vue中数组和对象更改后视图不刷新的问题.md)
+
+* 框架通识
+  * [MVVM](/src/frame/MVVM.md)
+  * [Vue 和 React 的区别](/src/frame/Vue和React的区别.md)
  
 * 浏览器
   * [跨域](/src/browser/跨域.md)
@@ -58,10 +66,6 @@
   * [gulp](/src/tool/gulp.md)
   * [webpack](/src/tool/webpack.md)
   * [gulp 和 webpack 的区别](/src/tool/gulp和webpack的区别.md)
-
-* 框架通识
-  * [MVVM](/src/frame/MVVM.md)
-  * [Vue 和 React 的区别](/src/frame/Vue和React的区别.md)
 
 * 业务相关
   * [发布](/src/business/发布.md)

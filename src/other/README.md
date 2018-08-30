@@ -4,7 +4,18 @@
 * [Learning JavaScript Data Structures and Algorithms](https://github.com/loiane/javascript-datastructures-algorithms)
 
 ## 框架相关
-* [react-router](https://reacttraining.com/react-router/)
+* Vue
+  * [Vue.js](https://cn.vuejs.org/)
+  * [Vue Router](https://router.vuejs.org/zh/)
+  * [vue-lazyload](https://github.com/hilongjw/vue-lazyload)
+* React
+  * [react-router](https://reacttraining.com/react-router/)
+  * [react-lazyload](https://github.com/jasonslyvia/react-lazyload)
+  * [react-placeholder](https://github.com/buildo/react-placeholder)
+  * [react-hold](https://github.com/toplan/react-hold)
+
+## 性能机制
+* [Front-End-Performance-Checklist](https://github.com/thedaviddias/Front-End-Performance-Checklist)
 
 ## 编码规范
 * [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
@@ -31,8 +42,12 @@
 * [Interview-Notebook](https://github.com/CyC2018/Interview-Notebook)
 * [fex-team](https://github.com/fex-team/interview-questions)
 * [准备秋招学习笔记](https://github.com/CyC2018/Interview-Notebook)
+* [30-seconds-of-interviews](https://github.com/fejes713/30-seconds-of-interviews)
 
 ## 工具配置
 * [Lodash](https://lodash.com)
 * [《深入浅出 Webpack》](http://webpack.wuhaolin.cn/)
 * [TensorFlow.js](https://github.com/tensorflow/tfjs)
+
+## 资源汇总
+* [学习资源汇总](https://github.com/webproblem/learning-article)
