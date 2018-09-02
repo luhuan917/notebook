@@ -33,7 +33,7 @@
   * [React 性能优化方案之 PureComponent](/src/React/React16加载性能优化指南.md)
 
 * Vue
-  * [Vue 的继承](/src/Vue/Vue 的继承.md)
+  * [Vue 的继承](/src/Vue/Vue的继承.md)
   * [Vue 的 Virtual DOM](/src/Vue/Vue的VirtualDOM.md)
   * [异步更新队列 this.$nextTick](/src/Vue/异步更新队列this.$nextTick.md)
   * [Vue 中数组和对象更改后视图不刷新的问题](/src/Vue/Vue中数组和对象更改后视图不刷新的问题.md)
