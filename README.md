@@ -81,6 +81,7 @@
 
 ## 推荐阅读
 * [阅读集锦](/src/other/README.md)
+* [sophia博客的广告位](http://sophiayang1997.github.io)
 
 ## 笔试面试
 * 面试集锦
