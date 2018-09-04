@@ -36,6 +36,7 @@
   * [Vue 的继承](/src/Vue/Vue的继承.md)
   * [Vue 的 Virtual DOM](/src/Vue/Vue的VirtualDOM.md)
   * [异步更新队列 this.$nextTick](/src/Vue/异步更新队列this.$nextTick.md)
+  * [this.$route 和 this.$router](/src/Vue/this.$route和this.$router.md)
   * [Vue 中数组和对象更改后视图不刷新的问题](/src/Vue/Vue中数组和对象更改后视图不刷新的问题.md)
 
 * 框架通识
