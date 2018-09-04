@@ -73,6 +73,9 @@
   * [埋点与用户行为分析](/src/business/埋点与用户行为分析.md)
   * [网站流量指标与网站流量统计](/src/business/网站流量指标与网站流量统计.md)
 
+* 计算机通识
+  * [计算机网络](/src/computer/计算机网络.md)
+
 ## 读书笔记
 * [《高性能的 JavaScript》](/src/book/高性能的JavaScript.md)
 * [《学习 JavaScript 数据结构与算法》](/src/book/学习JavaScript数据结构与算法.md)
