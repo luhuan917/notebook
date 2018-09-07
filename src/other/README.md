@@ -10,6 +10,7 @@
   * [vue-lazyload](https://github.com/hilongjw/vue-lazyload)
 * React
   * [react-router](https://reacttraining.com/react-router/)
+  * [Redux 中文文档](http://www.redux.org.cn/)
   * [react-lazyload](https://github.com/jasonslyvia/react-lazyload)
   * [react-placeholder](https://github.com/buildo/react-placeholder)
   * [react-hold](https://github.com/toplan/react-hold)
