@@ -4,9 +4,7 @@
 * [3.命令式和声明式](#3.命令式和声明式)
 * [4.作用域](#4.作用域)
 * [5.花括号](#5.花括号)
-* [](#)
-* [](#)
-* [](#)
+
 ## 1.双等号
 ```js
 const a = [1, 2, 3]
@@ -23,10 +21,37 @@ console.log(a === b) // false
 console.log(null == undefined)  // true
 console.log(null === undefined) // false
 
-console.log(NaN == NaN) // false
+console.log(NaN == NaN) // false，唯一一个不等于自身的类型
+console.log(NaN === NaN) // false
+```
+```js
+console.log([] == false) // true，其中一个为布尔，转布尔为数字，[] == 0，0 == 0
+console.log({} == false) // false，对象原始值为对象本身，所以和false不等
+console.log({} == true) // false，也和true不等
 
+if([]) console.log('1') // '1'
+if([1] == [1]) console.log('1') // undefined
+```
+
+![alt](./imgs/js-1.png)
+
+```js
 console.log([] == ![]) // true
 console.log([] == []) // false
+
+//!的优先级较==高，先运算==右侧的操作数：[]是对象，会转换成true，然后再转成false（加!的一定是转换成boolean）
+
+// [] 转成 true，然后取反变成 false
+[] == false
+// 根据第 8 条得出
+[] == ToNumber(false)
+[] == 0
+// 根据第 10 条得出
+ToPrimitive([]) == 0
+// [].toString() -> ''
+'' == 0
+// 根据第 6 条得出
+0 == 0 // -> true
 ```
 
 ## 2.typeof

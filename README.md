@@ -89,9 +89,6 @@
 
 ## 笔试面试 
 * 面试集锦
-  * [JavaScript 在线编程--运行结果类](/src/interview/JavaScript在线编程--运行结果类.md)
-  * [JavaScript 在线编程--经典问题类](/src/interview/JavaScript在线编程--经典问题类.md)
-  * [JavaScript 在线编程--应用实践类](/src/interview/JavaScript在线编程--应用实践类.md)
   * [一些检验的方法](/src/interview/一些检验的方法.md)
   * [0.1 加 0.2 不等于 0.3](/src/interview/0.1加0.2不等于0.3.md)
   * [一道闭包面试题](/src/interview/一道闭包面试题.md)
@@ -99,3 +96,6 @@
   * [一道跟 promise 有关的面试题](/src/interview/一道跟promise有关的面试题.md)
   * [一道跟 setTimeout 有关的面试题](/src/interview/一道跟setTimeout有关的面试题.md)
   * [鹅厂提前批在线编程](/src/interview/鹅厂提前批在线编程.md)
+  * [JavaScript 在线编程--运行结果类](/src/interview/JavaScript在线编程--运行结果类.md)
+  * [JavaScript 在线编程--经典问题类](/src/interview/JavaScript在线编程--经典问题类.md)
+  * [JavaScript 在线编程--应用实践类](/src/interview/JavaScript在线编程--应用实践类.md)
