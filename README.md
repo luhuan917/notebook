@@ -21,6 +21,8 @@
   * [Generator](/src/JavaScript/Generator.md)
   * [防抖和节流](/src/JavaScript/防抖和节流.md)
   * [正则表达式](/src/JavaScript/正则表达式.md)
+  * [Array API](/src/JavaScript/ArrayAPI.md)
+  * [String API](/src/JavaScript/StringAPI.md)
   * [垃圾回收机制](/src/JavaScript/垃圾回收机制.md)
 
 * React
