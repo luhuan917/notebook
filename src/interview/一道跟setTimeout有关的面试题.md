@@ -1,6 +1,6 @@
 # 一道跟 setTimeout 有关的面试题
 
-#3 题目1
+## 题目1
 ```js
 function textlog() {
     for (var i = 0; i < 5; i++) {

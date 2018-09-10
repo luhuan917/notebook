@@ -13,6 +13,7 @@
 * [12.数组扁平化](#12.数组扁平化)
 * [13.正则验证email](#13.正则验证email)
 * [14.使用setTimeout实现setInterval](#14.使用setTimeout实现setInterval)
+* [15.实现字符串的trim函数](#15.实现字符串的trim函数)
 
 ## 1.数组去重
 > 编写一个数组去重的方法
@@ -446,4 +447,26 @@ const mySetInterval = (func, ms, count) => {
 
 const test = () => console.log('log');
 mySetInterval(test, 10);
+```
+
+## 15.实现字符串的trim函数
+```js
+/*trim	去掉空白
+str要处理的字符串		
+[type] 	类型：l 去除左边的空白
+           	 r 去除右边空白	
+             b 去掉两边的空白		
+             a 去除所有空白*/
+function trim (str,type) {
+	var type=type||"b";
+	if(type=="b"){
+		return str.replace(/^\s*|\s*$/g,"");
+	}else if(type=="l"){
+		return str.replace(/^\s*/g,"");
+	}else if(type=="r"){
+		return str.replace(/\s*$/g,"");
+	}else if(type=="a"){
+		return str.replace(/\s*/g,"");
+	}
+}
 ```

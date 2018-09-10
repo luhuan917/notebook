@@ -1,5 +1,6 @@
 # Array API
-
+先祭上一张神图：
+![alt](./imgs/string&Array.png)
 ## toString
 toString() 返回一个字符串，表示指定的数组及其元素。
 
