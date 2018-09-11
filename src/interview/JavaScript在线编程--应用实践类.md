@@ -8,7 +8,7 @@
 * [7.递归的评论](#)
 * [8.memoization的实现](#)
 * [10.如何解决地狱回调](#)
-* [11.大O算法](#)
+* [11.大O算法](#11.大O算法)
 
 
 ## 1.整数的千位划分
@@ -72,3 +72,67 @@ const isDeepEqual = (obj1,obj2,testPrototype = false) => {
 ```
 
 ## 4.0.1加0.2等于0.3问题
+
+## 11.大O算法
+大O表示法描述算法的时间复杂度。最好的算法将以最快的速度执行并具有最简单的复杂性。
+
+### O(1)
+```js
+arr[arr.length - 1]
+```
+* 1000 elements = 1ms
+* 2000 elements = 1ms
+
+### O(N)
+```js
+arr.filter(fn)
+```
+* 1000 elements = 1ms
+* 7000 elements = 7ms
+
+### O([1, N])
+执行时间取决于提供给函数的数据，可能会很早或很晚返回。这里最好的情况是O（1），最坏的情况是O（N）。
+
+```js
+arr.some(fn)
+```
+* 1000 elements = 1ms <= x <= 1000ms
+
+### O(NlogN)
+浏览器通常为sort（）方法实现快速排序算法，这是logN时间复杂度。这对于大型集合非常有效。
+
+```js
+arr.sort(fn)
+```
+
+* 1000 elements = 3ms
+
+### O(N^2)
+执行时间随元素数量呈二次方式上升。通常是嵌套循环的结果。
+
+```js
+for (let i = 0; i < arr.length; i++) {
+  for (let j = 0; j < arr.length; j++) {
+    // ...
+  }
+}
+```
+* 1000 elements = 1000000ms
+
+### O(N!)
+```js
+const permutations = arr => {
+  if (arr.length <= 2) return arr.length === 2 ? [arr, [arr[1], arr[0]]] : arr
+  return arr.reduce(
+    (acc, item, i) =>
+      acc.concat(
+        permutations([...arr.slice(0, i), ...arr.slice(i + 1)]).map(val => [
+          item,
+          ...val
+        ])
+      ),
+    []
+  )
+}
+```
+* 1000 elements = Infinity (practically) ms

@@ -133,6 +133,44 @@ const duplicates = (arr) => {
 console.log(duplicates([1,3,4,3,1,4,6,7]));
 ```
 
+### 笔试题
+> 在一个长度为n的数组里的所有数字都在0到n-1的范围内。 数组中某些数字是重复的，但不知道有几个数字是重复的。也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，那么对应的输出是第一个重复的数字2。
+
+* **函数式编程解法**
+
+```js
+const duplicates = (arr) => {
+  let repeat = arr.find((item,index,_arr) => 
+     _arr.indexOf(item) !== index
+  )
+  return repeat;
+}
+console.log(duplicates([1,3,4,3,1,4,6,7]));
+```
+
+* **无额外空间，时间复杂度为O(n)**
+
+```js
+const duplicate = (arr) => {
+  for(let i=0;i<arr.length;i++){
+    let temp;
+    while(arr[i] != i){
+      temp = arr[arr[i]];
+      if(temp === arr[i] || arr[i] < i){
+        return temp;
+      }
+      arr[arr[i]] = arr[i];
+      arr[i] = temp;
+    }
+    while(arr[i] == i){
+      i++;
+    }
+    i--;
+  }
+}
+console.log(duplicate([2,3,1,3,0])) // temp === arr[i]
+console.log(duplicate([2,3,1,0,2,5,3])) // arr[i] < i
+```
 ## 3.浅拷贝
 > 浅拷贝：只复制一层对象的属性
 
@@ -211,21 +249,75 @@ console.log(res.arr === obj.arr); // false，指向不同的内存地址
 
 ## 5.防抖
 ### 防抖之非立即执行版
+当持续触发事件时，debounce 会合并事件且不会去触发事件，当一定时间内没有触发再这个事件时，才真正去触发事件。
 
 ![alt](./imgs/js-2-2.png)
 
 ```js
+const debounce = (func,wait,...args) => {
+  let timeout;
+  return function(){
+    const context = this;
+    if(timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      func.apply(context,args)
+    },wait);
+  }
+}
 ```
 
 ### 防抖之立即执行版
 
 ```js
+const debounce = (func, wait, ...args) => {
+  let timeout;
+  return function(){
+    const context = this;
+    if (timeout) cleatTimeout(timeout);
+    let callNow = !timeout;
+    timeout = setTimeout(() => {
+      timeout = null;
+    },wait)
+    
+    if(callNow) func.apply(context,args)
+   }
+}
 ```
 
 ## 6.节流
+当持续触发事件时，保证隔间时间触发一次事件。
+
+![alt](./imgs/js-2-2.png)
 ### 节流之时间戳版
+```js
+const throttle = (func,wait,...args) => {
+  let pre = 0;
+  return function(){
+    const context = this;
+    let now = Date.now();
+    if(now-pre>=wait){
+      func.apply(context,args);
+      pre=Date.now();
+    }
+  }
+}
+```
 
 ### 节流之定时器版
+```js
+const throttle = (func, wait, ...args) => {
+  let timeout;
+  return function(){
+    const context = this;
+    if(!timeout){
+      timeout = setTimeout(function(){
+        timeout = null;
+        func.apply(context,args);
+      },wait)
+    }
+  }
+}
+```
 
 ## 7.斐波那契数组
 > 生成一个包含Fibonacci序列的数组，直到第n个项
@@ -240,6 +332,106 @@ const fibonacci = n =>
 ```
 ```js
 fibonacci(9) // [0, 1, 1, 2, 3, 5, 8, 13, 21]
+```
+
+### 7.1递归求斐波那契数列
+> 大家都知道斐波那契数列，现在要求输入一个整数n，请你输出斐波那契数列的第n项（从0开始，第0项为0）。n<=39
+
+```js
+0 1 1 2 3 5 8 13 21
+0 1 2 3 4 5 6 7  8
+
+第 n 项有等于 n-1 项加 n-2 项的特点
+```
+```js
+function Fibonacci(n)
+{
+    if(n==0){
+        return 0;
+    }else if(n==1 || n==2){
+        return 1;
+    }else{
+        return Fibonacci(n-1)+Fibonacci(n-2);
+    }
+}
+```
+
+### 7.2跳台阶
+> 一只青蛙一次可以跳上1级台阶，也可以跳上2级。求该青蛙跳上一个n级的台阶总共有多少种跳法（先后次序不同算不同的结果）。
+
+```js
+function jumpFloor(n)
+{
+    if(n==0){
+        return 0;
+    }else if(n==1){
+        return 1;
+    }else if(n==2){
+        return 2;
+    }else{
+        return jumpFloor(n-1)+jumpFloor(n-2);
+    }
+}
+```
+
+### 7.3变态跳台阶
+> 一只青蛙一次可以跳上1级台阶，也可以跳上2级……它也可以跳上n级。求该青蛙跳上一个n级的台阶总共有多少种跳法。
+
+```
+说明： 
+
+1）这里的f(n) 代表的是n个台阶有一次1,2,...n阶的 跳法数。
+
+2）n = 1时，只有1种跳法，f(1) = 1
+
+3) n = 2时，会有两个跳得方式，一次1阶或者2阶，这回归到了问题（1） ，f(2) = f(2-1) + f(2-2) 
+
+4) n = 3时，会有三种跳得方式，1阶、2阶、3阶，
+
+    那么就是第一次跳出1阶后面剩下：f(3-1);第一次跳出2阶，剩下f(3-2)；第一次3阶，那么剩下f(3-3)
+
+    因此结论是f(3) = f(3-1)+f(3-2)+f(3-3)
+
+5) n = n时，会有n中跳的方式，1阶、2阶...n阶，得出结论：
+
+    f(n) = f(n-1)+f(n-2)+...+f(n-(n-1)) + f(n-n) => f(0) + f(1) + f(2) + f(3) + ... + f(n-1)
+
+    
+
+6) 由以上已经是一种结论，但是为了简单，我们可以继续简化：
+
+    f(n-1) = f(0) + f(1)+f(2)+f(3) + ... + f((n-1)-1) = f(0) + f(1) + f(2) + f(3) + ... + f(n-2)
+
+    f(n) = f(0) + f(1) + f(2) + f(3) + ... + f(n-2) + f(n-1) = f(n-1) + f(n-1)
+
+    可以得出：
+
+    f(n) = 2*f(n-1)
+
+    
+
+7) 得出最终结论,在n阶台阶，一次有1、2、...n阶的跳的方式时，总得跳法为：
+
+              | 1       ,(n=0 ) 
+
+f(n) =        | 1       ,(n=1 )
+
+              | 2*f(n-1),(n>=2)
+```
+```js
+function jumpFloorII(n)
+{
+   if(n<=0){
+        return 0;
+    }else if(n==1){
+        return 1;
+    }else if(n==2){
+        return 2;
+    }else{
+        var sum = 2 * jumpFloorII(n-1);
+        return sum;
+    }
+}
 ```
 
 ## 8.实现bind
