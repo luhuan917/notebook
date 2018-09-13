@@ -14,6 +14,8 @@
 * [13.正则验证email](#13.正则验证email)
 * [14.使用setTimeout实现setInterval](#14.使用setTimeout实现setInterval)
 * [15.实现字符串的trim函数](#15.实现字符串的trim函数)
+* [16.实现parseInt函数](#16.实现parseInt函数)
+* [17.获取URL中的参数](#17.获取URL中的参数)
 
 ## 1.数组去重
 > 编写一个数组去重的方法
@@ -661,4 +663,60 @@ function trim (str,type) {
 		return str.replace(/\s*/g,"");
 	}
 }
+```
+
+## 16.实现parseInt函数
+```js
+console.log(_parseInt('10'))//10
+console.log(_parseInt('.12')) // NaN
+console.log(_parseInt('+1'))// 1
+console.log(_parseInt('-1'))// -1
+console.log(_parseInt('12N')) // 12
+console.log(_parseInt('89N9')) // 89
+```
+思路：将字符串拆分成数组项，有集中情况。
+1. 第一个非数字非+-号，直接NaN
+2. 第一个+号，跳过，计数+1
+3. 第一个-号，放入结果第一位，计数+1
+对数组进行循环，一旦遇到非数字的就返回拼接的结果
+
+```js
+function _parseInt(str){
+  if(typeof str !== 'string') return NaN;
+  let arr = str.trim().split('');
+  let res = '';
+  let i = 0;
+  if(/[^\d+-]/.test(arr[0])){
+    return NaN;
+  }else if(/[-]/.test(arr[0])){
+    res += arr[0];
+    i++;
+  }else if(/[\+]/.test(arr[0])){
+    i++;
+  }
+  for(;i<arr.length;i++){
+    if(/[\d]/.test(arr[i])){
+      res += arr[i]
+    }else{
+      return res;
+    }
+  }
+  return res;
+}
+```
+
+## 17.获取URL中的参数
+```js
+function getUrl(url){
+  let re = /[\?&]([\w]+)=([^&#]*)/g;
+  let t = null;
+  let obj = {};
+  while((t = re.exec(url)) !== null){
+    obj[t[1]] = t[2];
+  }
+  return obj;
+}
+
+console.log(getUrl('http://item.taobao.com/item.htm?a=1&b=2&c=&d=xxx&e'));
+// { a: '1', b: '2', c: '', d: 'xxx' }
 ```

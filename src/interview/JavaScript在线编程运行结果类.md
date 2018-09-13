@@ -4,6 +4,11 @@
 * [3.命令式和声明式](#3.命令式和声明式)
 * [4.作用域](#4.作用域)
 * [5.花括号](#5.花括号)
+* [6.执行顺序](#6.执行顺序)
+* [7.原型链](#7.原型链)
+* [8.默认值](#8.默认值)
+* [9.跨域变量](#9.跨域变量)
+* [10.比较符号](#10.比较符号)
 
 ## 1.双等号
 ```js
@@ -23,6 +28,8 @@ console.log(null === undefined) // false
 
 console.log(NaN == NaN) // false，唯一一个不等于自身的类型
 console.log(NaN === NaN) // false
+console.log(isNaN(NaN) === true) // true
+console.log(isNaN('abc') === true) // true
 ```
 ```js
 console.log([] == false) // true，其中一个为布尔，转布尔为数字，[] == 0，0 == 0
@@ -58,6 +65,7 @@ ToPrimitive([]) == 0
 ```js
 console.log(typeof typeof 0) // string=>typeof 0 先转换成'number'
 console.log(typeof null) // 'object'=>bug
+console.log(typeof 1+1) // 'number1'
 ```
 
 ## 3.命令式和声明式
@@ -77,6 +85,7 @@ const numbersDoubled = numbers.map(n => n * 2)
 ```
 
 ## 4.作用域
+### 4.1
 ```js
 var foo = 1
 function foobar() {
@@ -85,6 +94,21 @@ function foobar() {
   console.log(foo) // 2 => 第四行的foo，在第四行赋值
 }
 foobar()
+```
+
+### 4.2
+```js
+function Foo(){
+  var i=0;
+  return function(){
+    console.log(i++);
+  }
+}
+var f1 = Foo();
+var f2 = Foo();
+f1();  // 0
+f1();  // 1
+f2();  // 0
 ```
 
 ## 5.花括号
@@ -99,3 +123,89 @@ function greet() {
 console.log(greet()) // undefined
 ```
 由于 JavaScript 的自动分号插入（ASI），编译器在 return 关键字后面放置一个分号，因此它返回 undefined 而不会抛出错误。
+
+```
+const test = () => 1
+```
+* 不加{}时，有return作用，有返回值
+* 加{}时没有返回值，如果要返回值，需要用return
+
+## 6.执行顺序
+### 6.1
+```js
+function printing(){
+  console.log(1);
+  setTimeout(function(){console.log(2)},1000);
+  setTimeout(function(){console.log(3)},0);
+  console.log(4)
+}
+printing()
+
+// 1 4 3 2
+```
+
+### 6.2
+```js
+var t = true;
+window.setTimeout(function(){
+  t = false;
+},1000);
+while(t){
+}
+alert(t);
+```
+浏览器卡死
+
+## 7.原型链
+```js
+function A() {
+  this.fn = function(){
+    return 1;
+  };
+}
+A.prototype.fn = function(){ return 2;}
+var a = new A();
+a.fn();
+
+// 1
+```
+
+## 8.默认值
+```js
+function foo(x){
+  x = x || 3;
+  console.log(x);
+}
+foo();
+foo(0);
+foo(-1);
+foo(1);
+
+// 3
+// 3
+// -1
+// 1
+```
+
+## 9.跨域变量
+```js
+var foo = function bar(){
+  console.log(foo === bar);
+};
+foo(); // true
+```
+
+## 10.比较符号
+```js
+if(10>9>8 == true){
+  console.log('html5');
+}else{
+  console.log('css3');
+}
+
+// css3
+```
+首先 10>9 为 true
+
+true>8 => 1>8 为false
+
