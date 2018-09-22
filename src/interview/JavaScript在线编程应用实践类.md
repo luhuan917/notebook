@@ -13,6 +13,7 @@
 * [13.学生排序](#13.学生排序)
 * [14.最大字符数](#14.最大字符数)
 * [15.非重复字符最大数](#15.非重复字符最大数)
+* [16.任务队列](#16.任务队列)
 
 
 ## 1.整数的千位划分
@@ -347,4 +348,40 @@ function maxStr(str) {
 }
 console.log(maxStr('abcdabeacdc')) // 5 => beacd
 console.log(maxStr('arabcacfr')) // 4 => acfr
+```
+
+## 16.任务队列
+实现一个AI任务队列，AI需要提供以下接口
+```js
+AI.talk()
+// 执行一次任务，并输出‘talk’
+
+AI.cancel()
+// 取消上一次任务的执行，成功取消输出‘cancel’，如果未有任务执行则输出‘notask’
+
+AI.sleep()
+// num秒等待后再执行任务，等待任务本身也是可以取消的
+```
+```js
+AI.talk()
+// talk
+
+AI.cancel()
+// notask
+
+AI.talk().cancel()
+// cancel
+
+AI.sleep(3).talk()
+// 等待三秒之后输出：talk
+
+AI.cancel().talk().sleep(3).talk().cancel().sleep(3).talk()
+// notask
+// talk
+// 等待三秒
+// 等待三秒
+// talk
+```
+```js
+
 ```

@@ -4,7 +4,7 @@
 ## 概念
 ![alt](./imgs/webpack-1.png)
 
-不像大多数的模块打包机，webpack是把项目当作一个整体，通过一个给定的的主文件，webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包成一个或多个浏览器可识别的js文件
+不像大多数的模块打包机，**webpack是把项目当作一个整体，通过一个给定的的主文件，webpack将从这个文件开始找到你的项目的所有依赖文件，使用loaders处理它们，最后打包成一个或多个浏览器可识别的js文件**
 
 ## install
 首先添加我们即将使用的包：
@@ -59,7 +59,7 @@ var baseConfig = {
    },
     output: {
        filename: 'main.js',
-       ath: path.resolve('./build')
+       path: path.resolve('./build')
     }
 }
 module.exports = baseConfig
@@ -136,6 +136,7 @@ loader是webpack最重要的部分之一，通过使用不同的Loader，我们�
 * css-loader,style-loader:两个建议配合使用，用来解析css文件，能够解释@import,url()如果需要解析less就在后面加一个less-loader
 * file-loader: 生成的文件名就是文件内容的MD5哈希值并会保留所引用资源的原始扩展名
 * url-loader: 功能类似 file-loader,但是文件大小低于指定的限制时，可以返回一个DataURL事实上，在使用less,scss,stylus这些的时候，npm会提示差什么插件，差什么，安上就行了
+* webpack-bundle-analyzer：打包后的文件在dist目录下，npm run build 后，会自动在浏览器打开一个页面，里面包含打包的情况
 
 ## Plugins
 **loaders负责的是处理源文件的如css、jsx，一次处理一个文件。而plugins并不是直接操作单个文件，它直接对整个构建过程起作用**
@@ -175,7 +176,112 @@ loader是webpack最重要的部分之一，通过使用不同的Loader，我们�
 ```
 * HotModuleReplacementPlugin: 它允许你在修改组件代码时，自动刷新实时预览修改后的结果注意永远不要在生产环境中使用HMR。这儿说一下一般情况分为开发环境，测试环境，生产环境。
 
+## Tree Shaking
+Tree Shaking 简单理解就是：打包时把一些没有用到的代码删除掉，保证打包后的代码体积最小化。
+
+```js
+// .babelrc
+{
+  "presets": [["env", { "modules": false }], "react", "stage-0"]
+}
+```
+```js
+// package.json
+{
+  "sideEffects": false 
+  //表示所有的 module 都是无副作用的，没有使用到的 module 都可以删掉
+}
+```
+但是 css、scss 是有用的代码，我们只需引入即可
+
+```js
+// 表示，除了[]中的文件（类型），其他文件都是无副作用的，可以放心删掉。
+{
+  "sideEffects": [
+    "*.css", "*.scss", "*.sass"
+  ]
+}
+```
+可以看到，css 等样式文件现在如期打包进去了。如果有其他类型的文件有副作用，但是也希望打包进去，在 sideEffects: [] 中添加即可，可以是具体的某个文件或者某种文件类型。
+
+## Code Split（代码分割）
+单页应用，如果所有的资源都打包在一个 js 里面，毫无疑问，体积会非常庞大，首屏加载会有很长时间白屏，用户体验极差。所以，要代码分割，分成一个一个小的 js，优化加载时间。
+
+### 分离第三方库代码
+第三方库代码单独提取出来，和业务代码分离，减少 js 文件体积。在 webpack.base.conf.js 中增加：
+```js
+module: {...},
+optimization: {
+  splitChunks: {
+    cacheGroups: {
+      venders: {
+        test: /node_modules/,
+        name: 'vendors',
+        chunks: 'all'
+      }
+    }
+  }
+},
+plugins: ...
+```
+
+### 动态导入
+```js
+// src/containers/App/App.js
+
+// 注释掉此行代码
+// import About from '@containers/About/About';
+
+// 修改模块为动态导入形式
+<Route path="/about" render={() => import(/* webpackChunkName: "about" */ '@containers/About/About').then(module => module.default)}/>
+```
+
+能看到，<About> 组件已经被 webpack 单独打包出对应的 js 文件了。同时，结合 react-router，分离 <About> 组件的同时也做到了按需加载：当访问 About 页面时，about.js 才会被浏览器加载。
+
+注意，我们现在只是简单地使用了 dynamic import，很多边界情况没考虑进去，比如：加载进度、加载失败、超时等处理。可以开发一个高阶组件，把这些异常处理都包含进去。社区有个很棒的 react-loadable，大树底下好乘凉~
+```js
+npm i react-loadable
+
+// src/containers/App/App.js
+import Loadable from 'react-loadable';
+
+// 代码分割 & 异步加载
+const LoadableAbout = Loadable({
+  loader: () => import(/* webpackChunkName: "about" */ '@containers/About/About'),
+  loading() {
+    return <div>Loading...</div>;
+  }
+});
+
+class App extends React.Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <div>
+          <Header />
+
+          <Route exact path="/" component={Home} />
+          <Route path="/docs" component={Docs} />
+          <Route path="/about" component={LoadableAbout} />
+        </div>
+      </BrowserRouter>
+    );
+  }
+}
+```
+react-loadable 还提供了 preload 功能。假如有统计数据显示，用户在进入首页之后大概率会进入 About 页面，那我们就在首页加载完成的时候去加载 about.js，这样等用户跳到 About 页面的时候，js 资源都已经加载好了，用户体验会更好。
+
+### 提取复用的业务代码
+第三方库代码已经单独提取出来了，但是业务代码中也会有一些复用的代码，典型的比如一些工具函数库 utils.js。现在，About 组件和 Docs 组件都引用了 utils.js，webpack 只打包了一份 utils.js 在 main.js 里面，main.js 在首页就被加载了，其他页面有使用到 utils.js 自然可以正常引用到，符合我们的预期。但是目前我们只是把 About 页面异步加载了，如果把 Docs 页面也异步加载了会怎么样呢？
+
+
+
 ## 最后
+* [webpack4新特性介绍](https://juejin.im/post/5ab749036fb9a028b77ac506)
+* [optimizing-js](https://github.com/jasonintju/optimizing-js-example)
+* [webpack原理](https://segmentfault.com/a/1190000015088834)
+* [前端性能优化—js代码打包](https://juejin.im/post/5b9550806fb9a05cff31f7b3#comment)
+
 ### 什么是webpack和grunt和gulp有什么不同
 > 答案：Webpack是一个模块打包器，他可以递归的打包项目中的所有模块，最终生成几个打包后的文件。他和其他的工具最大的不同在于他支持code-splitting、模块化(AMD，ESM，CommonJs)、全局分析。
 
