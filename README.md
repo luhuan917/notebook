@@ -24,6 +24,7 @@
   * [Array API](/src/JavaScript/ArrayAPI.md)
   * [String API](/src/JavaScript/StringAPI.md)
   * [垃圾回收机制](/src/JavaScript/垃圾回收机制.md)
+  * [bind 和 call 和 apply](/src/JavaScript/bind和call和apply.md)
 
 * React
   * [React16 的新特性](/src/React/React16的新特性.md)

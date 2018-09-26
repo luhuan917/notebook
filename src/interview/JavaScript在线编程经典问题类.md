@@ -1,21 +1,22 @@
 # JavaScript在线编程--经典问题类
-* [1.数组去重](#1.数组去重)
-* [2.数组找重](#2.数组找重)
-* [3.浅拷贝](#3.浅拷贝)
-* [4.深拷贝](#4.深拷贝)
-* [5.防抖](#5.防抖)
-* [6.节流](#6.节流)
-* [7.斐波那契数组](#7.斐波那契数组)
-* [8.实现bind](#8.实现bind)
-* [9.实现模板替换](#9.实现模板替换)
-* [10.实现JSON.stringify](#10.实现JSON.stringify)
-* [11.实现instanceof](#11.实现instanceof)
-* [12.数组扁平化](#12.数组扁平化)
-* [13.正则验证email](#13.正则验证email)
-* [14.使用setTimeout实现setInterval](#14.使用setTimeout实现setInterval)
-* [15.实现字符串的trim函数](#15.实现字符串的trim函数)
-* [16.实现parseInt函数](#16.实现parseInt函数)
-* [17.获取URL中的参数](#17.获取URL中的参数)
+* [1.数组去重](#1数组去重)
+* [2.数组找重](#2数组找重)
+* [3.浅拷贝](#3浅拷贝)
+* [4.深拷贝](#4深拷贝)
+* [5.防抖](#5防抖)
+* [6.节流](#6节流)
+* [7.斐波那契数组](#7斐波那契数组)
+* [8.实现bind](#8实现bind)
+* [9.实现模板替换](#9实现模板替换)
+* [10.实现JSON.stringify](#10实现JSON.stringify)
+* [11.实现instanceof](#11实现instanceof)
+* [12.数组扁平化](#12数组扁平化)
+* [13.正则验证email](#13正则验证email)
+* [14.使用setTimeout实现setInterval](#14使用setTimeout实现setInterval)
+* [15.实现字符串的trim函数](#15实现字符串的trim函数)
+* [16.实现parseInt函数](#16实现parseInt函数)
+* [17.获取URL中的参数](#17获取URL中的参数)
+* [18.多叉树遍历问题](#18多叉树遍历问题)
 
 ## 1.数组去重
 > 编写一个数组去重的方法
@@ -573,6 +574,14 @@ const func = (arr) => {
 }
 ```
 
+```js
+const flattenDeep = (arr) => Array.isArray(arr)
+  ? arr.reduce((acc, val) => [...acc, ...flattenDeep(val)] , [])
+  : [arr]
+
+flattenDeep([1, [[2], [3, [4]], 5]])
+```
+
 ## 13.正则验证email
 ```js
 let re = /^\w[\w\.]+@[\w]+.(com|org)$/;
@@ -719,4 +728,77 @@ function getUrl(url){
 
 console.log(getUrl('http://item.taobao.com/item.htm?a=1&b=2&c=&d=xxx&e'));
 // { a: '1', b: '2', c: '', d: 'xxx' }
+```
+
+## 18.多叉树遍历问题
+```js
+let tree = [
+    {name:'a'},
+    {name:'b',child:[
+        {name:'c',child:[
+            {name:'d'},
+            {name:'e'}
+        ]}
+    ]},
+    {name:'f',child:[
+        {name:'g'},
+        {name:'h'}
+    ]}
+]
+```
+> 如上的数组，遍历每个节点，输出它的name属性
+
+```js
+function deep(arr) {
+    for(let i=0;i<arr.length;i++){
+        console.log(arr[i].name)
+        if(arr[i].child){
+            deep(arr[i].child)
+        }
+    }
+}
+```
+> 假设要找到c节点，并且找到之后停止遍历操作
+
+```js
+function deep(arr,name) {
+    for(let i=0;i<arr.length;i++){
+        console.log(arr[i].name)
+        if(arr[i].name === name){
+            return true // 找到元素
+        }
+        if(arr[i].child){
+            let flag = deep(arr[i].child,name)
+            if(flag){
+                return true // 子节点告诉父节点找到元素
+            }
+        }
+    }
+    return false // arr不含有元素，执行for结束
+}
+
+
+console.log(deep(tree,'d'))
+```
+```js
+function deep(arr,name) {
+    let flag = false
+    for(let i=0;i<arr.length;i++){
+        console.log(arr[i].name)
+        if(arr[i].name === name){
+            flag = true
+            break
+        }
+        if(arr[i].child){
+            flag = deep(arr[i].child,name)
+            if(flag){
+                break
+            }
+        }
+    }
+    return flag
+}
+
+
+console.log(deep(tree,'m'))
 ```
