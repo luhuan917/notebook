@@ -78,6 +78,7 @@
 
 * 计算机通识
   * [计算机网络](/src/computer/计算机网络.md)
+  * [数据结构与算法之美](/src/computer/数据结构与算法之美.md)
 
 ## 读书笔记
 * [《高性能的 JavaScript》](/src/book/高性能的JavaScript.md)
