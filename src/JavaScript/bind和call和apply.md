@@ -67,7 +67,7 @@ function Person(name, age) {
 }
 
 var _Person = Person.bind({}, 'hanzichi'); // 这里this指向{}不作数
-var p = _Person(30); // Person {name: "hanzichi", age: 30}
+var p = new _Person(30); // Person {name: "hanzichi", age: 30}
 console.log(p)
 ```
 
