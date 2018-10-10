@@ -4,27 +4,27 @@ React 生命周期分为三种状态 1. 初始化 2.更新 3.销毁
 ![alt](./imgs/life-1.png)
 
 ## 初始化
-1. getDefaultProps()
+1. ```getDefaultProps()```
 
-设置默认的props，也可以用dufaultProps设置组件的默认属性.
+设置默认的props，es6中用 static dufaultProps={} 设置组件的默认属性。在整个生命周期只执行一次。
 
-2. getInitialState()
+2. ```getInitialState()```
 
 在使用es6的class语法时是没有这个钩子函数的，可以直接在constructor中定义this.state。此时可以访问this.props
 
-3. componentWillMount()
+3. ```componentWillMount()```
 
-componentWillMount函数在第一次render之前被调用，并且只会被调用一次。当组件进入到这个生命周期中时，所有的state和props已经配置完毕，我们可以通过this.props和this.state访问它们，也可以通过setState重新设置状态。总之推荐在这个生命周期函数里进行状态初始化的处理，为下一步render做准
+componentWillMount函数在第一次render之前被调用，并且只会被调用一次。当组件进入到这个生命周期中时，所有的state和props已经配置完毕，我们可以通过this.props和this.state访问它们，也可以通过setState重新设置状态。总之推荐在这个生命周期函数里进行状态初始化的处理，为下一步render做准备。比如：ajax数据的拉取操作，定时器的启动。
 
-4. render()
+4. ```render()```
 
 react最重要的步骤，创建虚拟dom，进行diff算法，更新dom树都在此进行。此时就不能更改state了。
 * 不要尝试在render里改变组件的状态。因为通过setState引发的状态改变会导致再一次调用render函数进行渲染，而又继续改变状态又继续渲染，导致无限循环下去。
 * 不应该在render中通过ReactDOM.findDOMNode方法访问原生的DOM元素（原生相对于虚拟DOM而言）。因为这么做存在两个风险：1、此时虚拟元素还没有被渲染到页面上，所以你访问的元素并不存在。2、因为当前的render即将执行完毕返回新的DOM结构，你访问到的可能是旧的数据。
 
-5. componentDidMount()
+5. ```componentDidMount()```
 
-当这个函数被调用时，就意味着可以访问组件的原生DOM了。如果你有经验的话，此时不仅仅能够访问当前组件的DOM，还能够访问当前组件孩子组件的原生DOM元素。
+当这个函数被调用时，就意味着可以访问组件的原生DOM了。动画的启动，输入框自动聚焦。如果你有经验的话，此时不仅仅能够访问当前组件的DOM，还能够访问当前组件孩子组件的原生DOM元素。
 
 ![alt](./imgs/life-2.png)
 
@@ -44,12 +44,12 @@ componentDidMount的调用顺序正好是render的反向。这其实也很好理
 
 ## 更新
 更新阶段会在三种情况下触发：
-* 更改props：一个组件并不能主动更改它拥有的props属性，它的props属性是由它的父组件传递给它的。强制对props进行重新赋值会导致程序报错。
-* 更改state：state的更改是通过setState接口实现的。同时设计state是需要技巧的，哪些状态可以放在里面，哪些不可以；什么样的组件可以有state，哪些不可以有；这些都需要遵循一定原则的。这个话题有机会可以单独拎出来说
-* 调用forceUpdate方法：这个我们在上一阶段已经提到了，强制组件进行更新。
+* **更改props**：一个组件并不能主动更改它拥有的props属性，它的props属性是由它的父组件传递给它的。强制对props进行重新赋值会导致程序报错。
+* **更改state**：state的更改是通过setState接口实现的。同时设计state是需要技巧的，哪些状态可以放在里面，哪些不可以；什么样的组件可以有state，哪些不可以有；这些都需要遵循一定原则的。这个话题有机会可以单独拎出来说
+* **调用forceUpdate方法**：这个我们在上一阶段已经提到了，强制组件进行更新。
 
 
-6. **componentWillReceiveProps**(nextProps)
+6. ```componentWillReceiveProps(nextProps)```
 
 组件初始化时不调用，组件接受新的props时调用。
 
@@ -77,7 +77,7 @@ class App extends React.Component {
   }
 }
 ```
-每一次点击事件都会重新使用setState接口对state进行更新，但每次更新的值都是相同的，即number:1。并且把当前组件的状态以属性的形式传递给<MyButton />。问题来了，那么当我每次点击按钮时，按钮MyButton的componentWillReceiveProps都会被调用吗？
+每一次点击事件都会重新使用setState接口对state进行更新，但每次更新的值都是相同的，即number:1。并且把当前组件的状态以属性的形式传递给```<MyButton />```。问题来了，那么当我每次点击按钮时，按钮MyButton的componentWillReceiveProps都会被调用吗？
 
 会，即使每次更新的值都是一样的。
 
@@ -87,23 +87,23 @@ class App extends React.Component {
 
 所以React将这个变化通过钩子函数暴露出来，**千万不要以为当componentWillReceiveProps被调用就意味着props发生了更改，如果需要在变化时做一些事情，务必要手动的进行比较**。
 
-7. **shouldComponentUpdate**(nextProps, nextState)
+7. ```shouldComponentUpdate(nextProps, nextState)```
 
 react性能优化非常重要的一环。组件接受新的state或者props时调用，我们**可以设置在此对比前后两个props和state是否相同，如果相同则返回false阻止更新**，因为相同的属性状态一定会生成相同的dom树，这样就不需要创造新的dom树和旧的dom树进行diff算法对比，节省大量性能，尤其是在dom结构复杂的时候
 
-传递给shouldComponentUpdate的参数包括即将改变的props和state，形参的名称是nextProps和nextState，在这个函数里你同时又能通过this关键字访问到当前的state和props，所以你在这里你是“全知”的，**可以完全按照你自己的业务逻辑判断是否state与props是否发生了更改，并且决定是否要继续接下来的步骤**。shouldComponentUpdate也就通常我们在优化React性能时的第一步。这一步的优化不仅仅是优化组件自身的流程，同时也能节省去子组件的重新渲染的代价
+传递给shouldComponentUpdate的参数包括即将改变的props和state，形参的名称是nextProps和nextState，在这个函数里你同时又能通过this关键字访问到当前的state和props，所以你在这里你是“全知”的，**可以完全按照你自己的业务逻辑判断是否state与props是否发生了更改，并且决定是否要继续接下来的步骤**。shouldComponentUpdate也就通常我们在优化React性能时的第一步。这一步的优化不仅仅是优化组件自身的流程，同时也能节省去子组件的重新渲染的代价。
 
-8. componentWillUpdata(nextProps, nextState)
+8. ```componentWillUpdata(nextProps, nextState)```
 
 componentWillUpdate方法和componentWillMount方法很相似，都是在即将发生渲染前触发，在这里你能够拿到nextProps和nextState，同时也能访问到当前即将过期的props和state。如果有需要的话你可以把它们暂存起来便于以后使用。
 
-与componentWillMount不同的是，在这个方法中你不可以使用setState，否则会立即触发另一轮的渲染并且又再一次调用componentWillUpdate，陷入无限循环中。
+与componentWillMount不同的是，在这个方法中你**不可以使用setState**，否则会立即触发另一轮的渲染并且又再一次调用componentWillUpdate，陷入无限循环中。
 
-9. render()
+9. ```render()```
 
 组件渲染
 
-10. componentDidUpdate()
+10. ```componentDidUpdate()```
 
 组件初始化时不调用，组件更新完成后调用，此时可以获取dom节点。
 
@@ -126,11 +126,13 @@ componentDidUpdate(prevProps, prevState) {
 }
 ```
 ## 卸载
-11. componentWillUnmount()
+11. ```componentWillUnmount()```
 
-1. 将已经发送的网络请求都取消掉
-2. 移除组件上DOM的Event Listener
+* 将已经发送的网络请求都取消掉
+* 移除组件上DOM的Event Listener和定时器
 
 ## 文章来源
 * [深入React的生命周期(上)：出生阶段(Mount)](https://juejin.im/post/59fede45f265da430b7a9d9f)
 * [深入React的生命周期(下)：更新(Update)](https://juejin.im/post/5a0852325188255ea95b6f26)
+
+> life

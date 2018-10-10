@@ -1,5 +1,4 @@
 # Virtual Dom Diff 算法解析
-> VDD
 
 * [Virtual Dom Diff 算法](#VirtualDomDiff算法)
 * [不同节点类型的比较](#不同节点类型的比较)
@@ -12,50 +11,27 @@
 ## Virtual Dom Diff 算法
 标准的的Diff算法复杂度需要 O(n^3)，Diff算法复杂度直接降低到 O(n)
 
-React 中最值得称道的部分莫过于 Virtual DOM 与 diff 的完美结合，特别是其高效的 diff 算法，让用户可以无需顾忌性能问题而”任性自由”的刷新页面，让开发者也可以无需关心 Virtual DOM 背后的运作原理，因为 React diff 会帮助我们计算出 Virtual DOM 中真正变化的部分，并只针对该部分进行实际 DOM 操作，而非重新渲染整个页面，从而保证了每次操作更新后页面的高效渲染，因此 Virtual DOM 与 diff 是保证 React 性能口碑的幕后推手。
+过程：当有数据需要更新时，会先计算Virtual DOM，并和上一次的Virtual DOM作对比，得到DOM结构的区别，然后只会将需要变化的部分批量的更新到真实的DOM上。
 
 1. **Web UI 中 DOM 节点跨层级的移动操作特别少，可以忽略不计**。
 2. **两个相同组件产生类似的 DOM 结构，不同的组件产生不同的 DOM 结构**；
 3. **对于同一层次的一组子节点，它们可以通过唯一的id进行区分**。
 
-* tree diff：即对树进行分层比较，两棵树只会对同一层次的节点进行比较。
-* component diff
+* ```tree diff```：即对树进行分层比较，两棵树只会对同一层次的节点进行比较。
+* ```component diff```
   * 如果是同一类型的组件，按照原策略继续比较 virtual DOM tree。
   * 如果不是，则将该组件判断为 dirty component，从而替换整个组件下的所有子节点。
   * 对于同一类型的组件，有可能其 Virtual DOM 没有任何变化，如果能够确切的知道这点那可以节省大量的 diff 运算时间，因此 React 允许用户通过 shouldComponentUpdate() 来判断该组件是否需要进行 diff。
-* element diff
+* ```element diff```
   * 当节点处于同一层级时，React diff 提供了三种节点操作，分别为：INSERT_MARKUP（插入）、MOVE_EXISTING（移动）和 REMOVE_NODE（删除）。
   * INSERT_MARKUP，新的 component 类型不在老集合里， 即是全新的节点，需要对新节点执行插入操作。
   * MOVE_EXISTING，在老集合有新 component 类型，且 element 是可更新的类型，generateComponentChildren 已调用 receiveComponent，这种情况下 prevChild=nextChild，就需要做移动操作，可以复用以前的 DOM 节点。
   * REMOVE_NODE，老 component 类型，在新集合里也有，但对应的 element 不同则不能直接复用和更新，需要执行删除操作，或者老 component 不在新集合里的，也需要执行删除操作。
 
+![alt](./imgs/VDD-13.png)
 
-## 不同节点类型的比较
-在React中即比较两个虚拟DOM节点，当两个节点不同时，应该如何处理。这分为两种情况：
-（1）节点类型不同   
-（2）节点类型相同，但是属性不同。  
 
-### 节点类型不同
-当在树中的同一位置前后输出了不同类型的节点，React直接删除前面的节点，然后创建并插入新的节点。
-
-假设我们在树的同一位置前后两次输出不同类型的节点。
-```
-renderA: <div />
-renderB: <span />
-=> [removeNode <div />], [insertNode <span />]
-```
-
-需要注意的是，删除节点意味着彻底销毁该节点，而不是再后续的比较中再去看是否有另外一个节点等同于该删除的节点。**如果该删除的节点之下有子节点，那么这些子节点也会被完全删除，它们也不会用于后面的比较。这也是算法复杂能够降低到O（n）的原因**。
-
-上面提到的是对虚拟DOM节点的操作，而同样的逻辑也被用在React组件的比较，例如：
-```
-renderA: <Header />
-renderB: <Content />
-=> [removeNode <Header />], [insertNode <Content />]
-```
-当React在同一个位置遇到不同的组件时，也是简单的销毁第一个组件，而把新创建的组件加上去。这正是应用了第一个假设，**不同的组件一般会产生不一样的DOM结构，与其浪费时间去比较它们基本上不会等价的DOM结构，还不如完全创建一个新的组件加上去**。
-
-### 逐层进行节点比较
+## tree diff：逐层进行节点比较
 在React中，树的算法其实非常简单，那就是两棵树只会对同一层次的节点进行比较。
 
 ![alt](./imgs/VDD-1.png)
@@ -81,7 +57,39 @@ D.append(A);
 ```
 可以看到，**以A为根节点的树被整个重新创建**。
 
-虽然看上去这样的算法有些“简陋”，但是其基于的是第一个假设：**两个不同组件一般产生不一样的DOM结构**。根据React官方博客，这一假设至今为止没有导致严重的性能问题。这当然也给我们一个提示，在实现自己的组件时，**保持稳定的DOM结构会有助于性能的提升**。例如，**我们有时可以通过CSS隐藏或显示某些节点，而不是真的移除或添加DOM节点**。
+虽然看上去这样的算法有些“简陋”，但是其基于的是第二个假设：**两个不同组件一般产生不一样的DOM结构**。根据React官方博客，这一假设至今为止没有导致严重的性能问题。这当然也给我们一个提示，在实现自己的组件时，**保持稳定的DOM结构会有助于性能的提升**。例如，**我们有时可以通过CSS隐藏或显示某些节点，而不是真的移除或添加DOM节点**。
+
+## component diff
+如下图，当 component D 改变为 component G 时，即使这两个 component 结构相似，一旦 React 判断 D 和 G 是不同类型的组件，就不会比较二者的结构，而是直接删除 component D，重新创建 component G 以及其子节点。虽然当两个 component 是不同类型但结构相似时，React diff 会影响性能，但正如 React 官方博客所言：不同类型的 component 是很少存在相似 DOM tree 的机会，因此这种极端因素很难在实现开发过程中造成重大影响的。
+
+![alt](./imgs/VDD-14.png)
+
+## element diff：不同节点类型的比较
+在React中即比较两个虚拟DOM节点，当两个节点不同时，应该如何处理。这分为两种情况：
+1. 节点类型不同   
+2. 节点类型相同，但是属性不同。  
+
+### 不同类型节点的比较
+当在树中的同一位置前后输出了不同类型的节点，React直接删除前面的节点，然后创建并插入新的节点。
+
+假设我们在树的同一位置前后两次输出不同类型的节点。
+```
+renderA: <div />
+renderB: <span />
+=> [removeNode <div />], [insertNode <span />]
+```
+
+需要注意的是，删除节点意味着彻底销毁该节点，而不是在后续的比较中再去看是否有另外一个节点等同于该删除的节点。**如果该删除的节点之下有子节点，那么这些子节点也会被完全删除，它们也不会用于后面的比较。这也是算法复杂能够降低到O（n）的原因**。
+
+上面提到的是对虚拟DOM节点的操作，而同样的逻辑也被用在React组件的比较，例如：
+```
+renderA: <Header />
+renderB: <Content />
+=> [removeNode <Header />], [insertNode <Content />]
+```
+当React在同一个位置遇到不同的组件时，也是简单的销毁第一个组件，而把新创建的组件加上去。这正是应用了第二个假设，**不同的组件一般会产生不一样的DOM结构，与其浪费时间去比较它们基本上不会等价的DOM结构，还不如完全创建一个新的组件加上去**。
+
+
 
 ### 由DOMDiff算法理解组件的生命周期
 ![alt](./imgs/VDD-3.png)
@@ -120,7 +128,7 @@ renderB: <div style={{fontWeight: 'bold'}} />
 => [removeStyle color], [addStyle font-weight 'bold']
 ```
 
-## 列表节点的比较
+### 列表节点的比较
 上面介绍了**对于不在同一层的节点的比较，即使它们完全一样，也会销毁并重新创建**。那么当它们在同一层时，又是如何处理的呢？这就涉及到列表节点的Diff算法。相信很多使用React的同学大多遇到过这样的警告：
 
 ![alt](./imgs/VDD-5.png)
@@ -188,7 +196,17 @@ R is updated.
 可以看到，对于列表节点提供唯一的key属性可以帮助React定位到正确的节点进行比较，从而大幅减少DOM操作次数，提高了性能。
 
 ## 总结
-本文分析了React的DOM Diff算法究竟是如何工作的，其复杂度控制在了O（n），这让我们考虑UI时可以完全基于状态来每次render整个界面而无需担心性能问题，简化了UI开发的复杂度。而算法优化的基础是文章开头提到的两个假设，以及React的UI基于组件这样的一个机制。理解虚拟DOM Diff算法不仅能够帮助我们理解组件的生命周期，而且也对我们实现自定义组件时如何进一步优化性能具有指导意义。
+* React 通过制定大胆的 diff 策略，将 O(n3) 复杂度的问题转换成 O(n) 复杂度的问题；
+
+* React 通过分层求异的策略，对 tree diff 进行算法优化；
+
+* React 通过相同类生成相似树形结构，不同类生成不同树形结构的策略，对 component diff 进行算法优化；
+
+* React 通过设置唯一 key的策略，对 element diff 进行算法优化；
+
+* 建议，在开发组件时，保持稳定的 DOM 结构会有助于性能的提升；
+
+* 建议，在开发过程中，尽量减少类似将最后一个节点移动到列表首部的操作，当节点数量过大或更新操作过于频繁时，在一定程度上会影响 React 的渲染性能。
 
 diff 算法：
 
@@ -206,3 +224,6 @@ React diff 算法：
 * [深入浅出React（四）：虚拟DOM Diff算法解析](http://www.infoq.com/cn/articles/react-dom-diff)
 * [React 源码剖析系列 － 不可思议的 react diff](https://zhuanlan.zhihu.com/p/20346379?refer=purerender)
 * [深入理解react（源码分析）](https://github.com/lanjingling0510/blog/issues/1#title2)
+* [React diff 策略](http://www.ptbird.cn/react-diff-from-code.html)
+
+> VDD

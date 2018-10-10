@@ -30,9 +30,12 @@
   * [bind 和 call 和 apply](/src/JavaScript/bind和call和apply.md)
 
 * React
+  * [React 的生命周期](/src/React/React生命周期.md) 
   * [React16 的新特性](/src/React/React16的新特性.md)
   * [React 是如何工作的](/src/React/React是如何工作的.md)
   * [React 中的 setState](/src/React/React中的setState.md)
+  * [Redux 和 React-Redux](/src/React/Redux和React-Redux.md)
+  * [react-router的实现原理](https://segmentfault.com/a/1190000004527878)
   * [React 和 jQuery 的对比](/src/React/React和jQuery的对比.md)
   * [Virtual Dom Diff算法解析](/src/React/VirtualDomDiff算法解析.md)
   * [React16 加载性能优化指南](/src/React/React16加载性能优化指南.md)

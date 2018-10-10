@@ -22,67 +22,6 @@ React 会在内存中维护一个虚拟 DOM 树，对这个树进行读或写，
 
 ![alt](./imgs/how-1.png)
 
-## Diff算法
-React 会抓取每个状态下的内容，生成一个全新的 Virtual DOM，然后通过和前一个的比较，找出不同和差异。React 的 Diff 算法有两个约定：
-1. 两个不同类型的元素，会产生两个不同的树
-2. 对于同一层次的一组子节点，它们可以通过唯一的id进行区分
-
-> 为什么React中列表模板中要加入key
-
-比如真实DOM的ul标签下，有一系列的<li>标签，然而当你想要重新排列这个标签时，如果你给了每个标签一个key值，React在比较差异的时候，就能够知道"你还是你，只不过位置变化了"。 **React除了要最快的找到差异外，还希望变化是最小的**。**如果加了key，react就会保留实例，而不像之前一样，完全创造一个全新的DOM**。
-
-## Diff运算实例
-### 不同类型的dom元素
-### 同类型dom元素
-### 相同类型的组件元素
-与上面类似，相同类型的组件元素，子元素的实力会保持，不会摧毁。 当组件更新时，实例保持不变，以便在渲染之间保持状态。**React更新底层组件实例的props以匹配新元素，并在底层实例上调用componentWillReceiveProps（）和componentWillUpdate（）**。
-
-接下来，调用render()方法，diff算法对前一个结果和新结果进行递归
-
-### key props
-* 场景一：在一个列表最后增加一个元素
-```
-<ul>
-  <li>first</li>
-  <li>second</li>
-</ul>
-------
-<ul>
-  <li>first</li>
-  <li>second</li>
-  <li>third</li>
-</ul>
-```
-可以看到，在这种情况下，React只需要在最后insert一个新元素即可，其他的都不需要变化，这个时候React是高效的。                           
-
-* 场景二：在列表最前面插入一个元素
-```
-<ul>
-  <li>Duke</li>
-  <li>Villanova</li>
-</ul>
----
-<ul>
-  <li>Connecticut</li>
-  <li>Duke</li>
-  <li>Villanova</li>
-</ul>
-```
-这对React可能就是灾难性的，因为React只知道前两个元素不同，因此会完全创新一个新的元素，最后导致三个元素都是重新创建的，这大大降低了效率。这个时候，key就排上用场了。当子元素有key时，**React使用key将原始树中的子元素与后续树中的子元素相匹配**。例如，在上面的低效示例中添加一个key可以使树转换更高效：
-```
-<ul>
-  <li key="2015">Duke</li>
-  <li key="2016">Villanova</li>
-</ul>
-------
-<ul>
-  <li key="2014">Connecticut</li>
-  <li key="2015">Duke</li>
-  <li key="2016">Villanova</li>
-</ul>
-```
-这样，只有key值为2014的是新创建的，而2015和2016仅仅是移动了位置而已。
-
 ### 策略
 两个树的完全的 diff 算法是一个时间复杂度为 O(n^3) 的问题。但是在前端当中，你很少会跨越层级地移动DOM元素。所以 Virtual DOM 只会对同一个层级的元素进行对比：
 
@@ -99,3 +38,5 @@ React 会抓取每个状态下的内容，生成一个全新的 Virtual DOM，�
 ```
 patches[1] = [{difference}, {difference}...]//用数组存储新旧节点的差异
 ```
+
+[diff的实现](https://github.com/azl397985856/mono-react/blob/lecture/part6/src/diff.js)
