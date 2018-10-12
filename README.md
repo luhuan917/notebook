@@ -51,7 +51,11 @@
 * 框架通识
   * [MVVM](/src/frame/MVVM.md)
   * [Vue 和 React 的区别](/src/frame/Vue和React的区别.md)
+  * [MVC 和 MVP 和 MVVM](/src/frame/MVC和MVP和MVVM.md)
  
+* 设计模式
+  * [JavaScript 设计模式](JavaScript设计模式)
+
 * 浏览器
   * [跨域](/src/browser/跨域.md)
   * [存储](/src/browser/存储.md)
@@ -62,7 +66,7 @@
   * [浏览器多进程与JS单线程](/src/browser/浏览器多进程与JS单线程.md)
 
 * 性能
-  * [网络相关](/src/performance/网络相关.md)
+  * [缓存](/src/performance/缓存.md)
   * [文件优化](/src/performance/文件优化.md)
   * [优化渲染过程](/src/performance/优化渲染过程.md)
   * [性能优化总结](/src/performance/性能优化总结.md)

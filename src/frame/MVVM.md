@@ -21,7 +21,7 @@ Vue.js 采用的是 数据劫持+发布/订阅模式 的方式，通过 Object.d
 通过Object.defineProperty()来劫持对象属性的setter和getter操作，在数据变动时做你想要做的事情
 
 下面是一个最简单的实现：
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
     <head>

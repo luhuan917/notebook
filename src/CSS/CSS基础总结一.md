@@ -236,6 +236,15 @@ content = 90  + 100 + 10 = 200
 1. css 选择规则的权值不同时，权值高的优先；
 2. css 选择规则的权值相同时，后定义的规则优先；
 3. css 属性后面加 !important 时，无条件绝对优先；
+
+### 伪类和伪元素
+根本区别在于他们是否创造了新的元素
+
+* **伪类**：用于向某些选择器添加特殊的效果。例如，a标签的:link, :visited, :hover, :active; 以及 :first-child, :last-child。
+* **伪元素**：是html中不存在的元素，用于将特殊的效果添加到某些选择器。例如:before,:after, :first-letter, :first-line。css3只新增了一个伪元素 ::selection（改变用户所选取部分的样式）。
+
+[CSS中一个冒号和两个冒号有什么区别](https://blog.csdn.net/sinat_36146776/article/details/53138178)
+
 ### 权值的计算：
 ![alt](./imgs/CSS-2-5.png)
 
