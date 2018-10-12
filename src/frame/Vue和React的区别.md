@@ -4,7 +4,7 @@
 比如我现在有这样一个显示 count 的 React 应用, 下面这段代码相当于告诉 React :
 > 我现在想渲染一段 html, 它的 innerHtml 就是this.props.count 的值
 
-![alt](./imgs/VRA-3.png)
+![alt](./imgs/VAR-3.png)
 
 这其实就是 MVVM 中 VM 的部分.对于 PureComponent React Component 来说, 整个 React Component 其实也能算是一个 VM
 ```
@@ -13,7 +13,7 @@ const componentA = props =>(<div>{props.count}</div>)
 
 VM 的关键点在于, 我们只是做了一个声明, 并没有直接地去修改 html. 我们只是修改了传入 React 组件的参数, 其余的同步状态的工作我们全部都交由 React 来帮我们处理
 
-![alt](./imgs/VRA-4.png)
+![alt](./imgs/VAR-4.png)
 
 其实和字面意思一样, ViewModal, 我告诉 MVVM 框架渲染出来的视图大概长啥样, 它有什么输入, 有什么输出(回调), 框架干活输出 html 模板
 
