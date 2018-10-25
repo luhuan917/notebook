@@ -97,9 +97,9 @@ module.exports = {
         
 当文件大于 limit 时，url-loader 会调用 file-loader, 把文件储存到输出目录，并把引用的文件路径改写成输出后的路径
 
-比如 views/foo/index.html 中<img src="smallpic.png">会被编译成<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAA...">
+比如 views/foo/index.html 中```<img src="smallpic.png">```会被编译成```<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAA...">```
  
-而<img src="largepic.png">会被编译成<img src="/f78661bef717cf2cc2c2e5158f196384.png">
+而```<img src="largepic.png">```会被编译成```<img src="/f78661bef717cf2cc2c2e5158f196384.png">```
 
 * **npm i html-withimg-loader -D**
 
